@@ -1,0 +1,33 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Producto } from '../models/producto'; // Importar el modelo de producto
+
+@Injectable({
+  providedIn: 'root' // Inyectar el servicio en toda la aplicación
+})
+export class ProductoService {
+
+  private urlAPI = 'https://tu-api.com/productos'; // URL de la API
+
+  constructor(private http: HttpClient) { } // Inyectar HttpClient
+
+  // Método para obtener la lista de productos
+  obtenerProductos(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(this.urlAPI);
+  }
+
+  // Método para crear un nuevo producto
+  crearProducto(producto: Producto): Observable<Producto> {
+    return this.http.post<Producto>(this.urlAPI, producto);
+  }
+
+  // Método para actualizar un producto existente
+  actualizarProducto(producto: Producto): Observable<Producto> {
+    return this.http.put<Producto>(this.urlAPI + '/' + producto.id, producto);
+  }
+
+  // Método para eliminar un producto
+  eliminarProducto(id: number): Observable<any> {
+    return this.http.delete<any>(this.urlAPI + '/' + id);
+  }
+}
